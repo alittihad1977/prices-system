@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تحديث الأسعار</title>
+<style>
+
+body{
+background:#111;
+color:white;
+font-family:Arial;
+text-align:center;
+direction:rtl;
+}
+
+textarea{
+width:420px;
+height:200px;
+font-size:18px;
+margin-top:20px;
+padding:10px;
+}
+
+button{
+font-size:22px;
+padding:12px 25px;
+margin-top:20px;
+cursor:pointer;
+background:#1f6fff;
+color:white;
+border:none;
+border-radius:6px;
+}
+
+h2{
+margin-top:30px;
+}
+
+</style>
+</head>
+<body>
+
+<h2>تحديث تسعير الصرافة</h2>
+
+<textarea id="msg" placeholder="الصق رسالة الواتساب هنا"
+onpaste="setTimeout(updatePrices, 100)"></textarea>
+
+<br>
+
+<button onclick="updatePrices()">تحديث الأسعار</button>
+
+<script>
+
+function updatePrices(){
+
+let text = document.getElementById("msg").value;
+
+let buys = text.match(/الشراء[:：]\s*([0-9.]+)/g);
+let sells = text.match(/المبيع[:：]\s*([0-9.]+)/g);
+
+for(let i=0;i<5;i++){
+
+if(buys && buys[i]){
+
+let buy = buys[i].match(/[0-9.]+/)[0];
+localStorage.setItem("buy"+(i+1),buy);
+
+}
+
+if(sells && sells[i]){
+
+let sell = sells[i].match(/[0-9.]+/)[0];
+localStorage.setItem("sell"+(i+1),sell);
+
+}
+
+}
+
+document.getElementById("msg").value="";
+
+alert("تم تحديث الأسعار بنجاح");
+
+}
+
+</script>
+
+</body>
+</html>
